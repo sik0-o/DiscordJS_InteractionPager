@@ -3,7 +3,7 @@ const {Pager} = require('./src/pager.js')
 // Paging класс, чтобы удобно создавать нужные конфигурации Pager
 class Paging {
     static that(arr, like, pageSize = 10) {
-        if(like !== 'function') {
+        if(typeof like !== 'function') {
             throw new Error('`like` must be a `function(pager, message) replyObject`')
         }
         // разбиваем список на страницы
