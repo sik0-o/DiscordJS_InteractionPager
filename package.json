@@ -1,0 +1,8 @@
+{
+  "name": "DiscordJS-InteractionPager",
+  "version": "0.0.1",
+  "author": "SikO.o",
+  "dependencies": {
+    "discord.js": "^14.0.0"
+  }
+}
