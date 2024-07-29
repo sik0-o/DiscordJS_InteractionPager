@@ -1,4 +1,4 @@
-const {Paging} = require('./src/pager.js')
+const {Pager} = require('./src/pager.js')
 
 // Paging класс, чтобы удобно создавать нужные конфигурации Pager
 class Paging {

@@ -12,6 +12,8 @@ class Pager {
     #lastPage
     #data
     #pageLayoutBuilder
+
+    #showPreviousButton = true
     
     // Инициализируется начальной страницей и последней страницей
     constructor(currentPage, lastPage) {
@@ -135,7 +137,16 @@ class Pager {
         // Если это первая страница, то предыдущей то нет
         if(this.#currentPage > 1) {
             components.push(previousPage)
+        } else {
+            // Поэтому либо не отображаем кнопку,
+            // либо отображаем отключенной
+            if(this.#showPreviousButton) {
+                previousPage.setDisabled(true)
+                components.push(previousPage)
+            }
         }
+
+
         // Добавляем текущую страницы
         components.push(curPage)
         // До предпоследней страницы нужна кнопка следующая страница 
