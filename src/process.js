@@ -96,6 +96,7 @@ class Process {
         const p = new Process()
         p.#initialInteractionID = interaction?.id
         p.bindInteraction(interaction)
+        p.Store()
 
         return p
     }
@@ -105,7 +106,15 @@ class Process {
     // Сначала поиск процесса производится по webhook, затем по message
     // далее поиск производится по interactionID сообщения, и уже затем по ID полученной interaction 
     static GetByInteraction(i) {
-        return __ProcSTORAGE.byInteraction(i)
+        p = __ProcSTORAGE.byInteraction(i)
+        // Получили процесс
+        if(p) {
+            // добавляем данные этого взаимодействия в процесс и сохраняем его
+            p.bindInteraction(i)
+            p.Store()
+        }
+
+        return p
     }
 
     Store() {
@@ -121,8 +130,14 @@ class Process {
         this.#webhookID = i?.webhook?.id ?? null
     }
 
-    Context() {
-        return this.#context
+    // register добавляет значение value под названием name в Контекст процесса
+    register(name, value) {
+        this.#context[name] = value
+    }
+
+    // access возвращает значение с названием name из Контекста процесса
+    access(name) {
+        return this.#context[name] ?? null
     }
 }
 
