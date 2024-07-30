@@ -1,3 +1,7 @@
+const BY_INTERACTION = 0
+const BY_MESSAGE = 1
+const BY_WEBHOOK = 2
+
 class ProcStorage {
     #processes = {}
     #interaction = {}
@@ -10,32 +14,32 @@ class ProcStorage {
         const messageInteractionID = i?.message?.interaction?.id ?? null
         const webhookID = i?.webhook.id ?? null
 
-        console.log(this.#processes, this.#interaction, this.#message, this.#webhook)
+        // console.log(this.#processes, this.#interaction, this.#message, this.#webhook)
 
         // by messageID
         if(messageID) {
-            console.log('ByMessageID', messageID)
-            const p = this.findProc(1, messageID)
+            // console.log('ByMessageID', messageID)
+            const p = this.findProc(BY_MESSAGE, messageID)
             if(p) return p
         }
         // by message InteractionID
         if(messageInteractionID) {
-            console.log('ByMessageInteractionID', messageInteractionID)
-            const p = this.findProc(0, messageInteractionID)
+            // console.log('ByMessageInteractionID', messageInteractionID)
+            const p = this.findProc(BY_INTERACTION, messageInteractionID)
             if(p) return p
         }
 
         // by interactionID
         if(interactionID) {
-            console.log('ByInteractionID', interactionID)
-            const p = this.findProc(0, interactionID)
+            // console.log('ByInteractionID', interactionID)
+            const p = this.findProc(BY_INTERACTION, interactionID)
             if(p) return p
         }
         // by webhookID
         // // this is fallback variant!
         // if(webhookID) {
         //     console.log('ByWebhookID', webhookID)
-        //     const p = this.findProc(2, webhookID)
+        //     const p = this.findProc(BY_WEBHOOK, webhookID)
         //     if(p) return p
         // }
         

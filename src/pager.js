@@ -3,7 +3,9 @@ const {
     ActionRowBuilder, 
     ButtonStyle 
 } = require('discord.js')
-
+const GO_NEXT_PAGE = 1
+const GO_PREV_PAGE = -1
+const GO_LAST_PAGE = 0
 /**
  * Pager собственно класс объекта пейджера. 
  */
@@ -170,4 +172,7 @@ class Pager {
 
 module.exports = {
     Pager: Pager,
+    GO_NEXT_PAGE: GO_NEXT_PAGE,
+    GO_PREV_PAGE: GO_PREV_PAGE,
+    GO_LAST_PAGE: GO_LAST_PAGE,
 }
