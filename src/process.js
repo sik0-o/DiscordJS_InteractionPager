@@ -106,7 +106,7 @@ class Process {
     // Сначала поиск процесса производится по webhook, затем по message
     // далее поиск производится по interactionID сообщения, и уже затем по ID полученной interaction 
     static GetByInteraction(i) {
-        p = __ProcSTORAGE.byInteraction(i)
+        const p = __ProcSTORAGE.byInteraction(i)
         // Получили процесс
         if(p) {
             // добавляем данные этого взаимодействия в процесс и сохраняем его
