@@ -52,7 +52,10 @@ async function pagerCallback(i, dir = null) {
             case CID_PREV_PAGE: dir = GO_PREV_PAGE; break
         }
     }
-    if(dir === null) throw new Error('pagerCallback error. Can`t detect pager direction from interaction.customID: ' + interactionCustomID)
+    if(dir === null) {
+        console.log(i)
+        throw new Error('pagerCallback error. Can`t detect pager direction from interaction.customID: ' + interactionCustomID)
+    }
 
     // Определяем команду кнопки
     if(dir === GO_NEXT_PAGE) {
