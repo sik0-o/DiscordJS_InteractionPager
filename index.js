@@ -13,7 +13,10 @@ const {Process} = require('./src/process')
 
 // Paging класс, чтобы удобно создавать нужные конфигурации Pager
 class Paging {
-    static that(arr, like, pageSize = 10) {
+    // for создает для interaction Process и Pager в нем использующий arr в качестве содержания 
+    // и замыкание like в качестве шаблонизатора страниц.
+    // По умолчанию список arr разбивается на страницы размером в 10 элементов, но это можно поменять передав другой pageSize
+    static for(interaction, arr, like, pageSize = 10) {
 
         if(typeof like !== 'function') {
             throw new Error('`like` must be a `function(pager, message) replyObject`')
@@ -21,6 +24,9 @@ class Paging {
 
         // разбиваем список на страницы
         if(typeof arr === 'object' && arr?.constructor?.name === 'Array') {
+            // Пробуем получить процесс связанный с взаимодействием interaction
+            const proc = interaction ? Process.InitByInteraction(interaction) : null
+
             const pages = []
             for(let i = 0; i < arr.length; i += pageSize) {
                 const page = arr.slice(i, i + pageSize)
@@ -31,11 +37,22 @@ class Paging {
             const p = new Pager(1, pages.length)
             p.linkData(pages)
             p.SetPageLayoutBuilder(like)
+            
+            // если есть процесс
+            if(proc) {
+                // Добавляем пэйджер в контекст процесса
+                proc.register('pager', p)
+            }
 
             return p
         } 
 
         throw new Error('`arr` must to be an array bro')
+    }
+    
+    // that так же как for() создает для interaction Pager, но не прикрепляет его к процессу.
+    static that(arr, like, pageSize = 10) {
+        return this.for(null, arr, like, pageSize)
     }
 }
 
