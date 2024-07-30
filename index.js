@@ -1,8 +1,13 @@
 const {
     Pager,
+    // Pager Constants
     GO_NEXT_PAGE,
     GO_PREV_PAGE,
     GO_LAST_PAGE,
+    CID_LAST_PAGE,
+    CID_NEXT_PAGE,
+    CID_PREV_PAGE,
+    CID_CURRENT_PAGE,
 } = require('./src/pager')
 const {Process} = require('./src/process')
 
@@ -35,10 +40,20 @@ class Paging {
 }
 
 // pagerCallback применяется на кнопки и получает взаимодействие кнопки i
-async function pagerCallback(i, dir = GO_NEXT_PAGE) {
+async function pagerCallback(i, dir = null) {
     // Извлекаем пэйджер из контекста процесса привязанного к взаимодействию (interaction)
     const proc = Process.GetByInteraction(i)
     const pager = proc.access('pager')
+    const interactionCustomID = i?.customID ?? null
+    if(dir === null) {
+        switch(interactionCustomID) {
+            case CID_LAST_PAGE: dir = GO_LAST_PAGE; break
+            case CID_NEXT_PAGE: dir = GO_NEXT_PAGE; break
+            case CID_PREV_PAGE: dir = GO_PREV_PAGE; break
+        }
+    }
+    if(dir === null) throw new Error('pagerCallback error. Can`t detect pager direction from interaction.customID')
+
     // Определяем команду кнопки
     if(dir === GO_NEXT_PAGE) {
         pager.nextPage()
@@ -57,7 +72,12 @@ module.exports = {
     Paging: Paging,
     Process: Process,
     pagerCallback: pagerCallback,
+    // Pager Constants
     GO_NEXT_PAGE: GO_NEXT_PAGE,
     GO_PREV_PAGE: GO_PREV_PAGE,
     GO_LAST_PAGE: GO_LAST_PAGE,
+    CID_LAST_PAGE: CID_LAST_PAGE,
+    CID_NEXT_PAGE: CID_NEXT_PAGE,
+    CID_PREV_PAGE: CID_PREV_PAGE,
+    CID_CURRENT_PAGE: CID_CURRENT_PAGE,
 }
