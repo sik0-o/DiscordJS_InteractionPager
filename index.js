@@ -44,7 +44,7 @@ async function pagerCallback(i, dir = null) {
     // Извлекаем пэйджер из контекста процесса привязанного к взаимодействию (interaction)
     const proc = Process.GetByInteraction(i)
     const pager = proc.access('pager')
-    const interactionCustomID = i?.customID ?? null
+    const interactionCustomID = i?.customId ?? null
     if(dir === null) {
         switch(interactionCustomID) {
             case CID_LAST_PAGE: dir = GO_LAST_PAGE; break
@@ -53,7 +53,6 @@ async function pagerCallback(i, dir = null) {
         }
     }
     if(dir === null) {
-        console.log(i)
         throw new Error('pagerCallback error. Can`t detect pager direction from interaction.customID: ' + interactionCustomID)
     }
 
