@@ -12,7 +12,7 @@
 
 ## Как использовать
 Для примера применю на команде взятой с (https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files)[документации discord.js]
-
+### ManualProcess init and binding(mpb)
 ```js
 const { SlashCommandBuilder } = require('discord.js');
 // тут добавляем пакет и берем от туда Process и Paging
@@ -90,6 +90,51 @@ module.exports = {
 		} else if (interaction.isStringSelectMenu()) {
 			// respond to the select menu
 		}
+	},
+};
+```
+
+### Auto-process binging
+Вместо метода `Paging.that()` можно использовать метод `Paging.for()` отличие лишь в том, что
+`Paging.for(interaction, arr, like, pageSize)` требует interaction первым аргументом, 
+но при этом `Process` будет создан, и `Pager` будет прикреплен к нему автоматически.
+
+Пример:
+```js
+const { SlashCommandBuilder } = require('discord.js');
+// тут добавляем пакет и берем от туда Process и Paging
+const { Paging,Process } = require('discord.js-interpage')
+
+function fetchList() {
+    // implement me!
+    // функция которая запрашивает список элементов, 
+    // который пейджер затем разделит на страницы
+    return []
+}
+
+module.exports = {
+	data: new SlashCommandBuilder()
+		.setName('ping')
+		.setDescription('Replies with Pong!'),
+	async execute(interaction) {       
+        // тут мы запрашиваем какой-то список элементов
+        const list = await fetchList()
+        // создаем пейджер и шаблон страницы
+        const pageLayout = Paging.for(
+            interaction, // здесь добавился interaction
+            list, 
+            (pager, oldmessage) => {
+                return {
+                    content: `Ваш страница ${pager.CurrentPage()} из ${pager.LastPage()}\n` +
+                    `\`${pager.getContent()}\``, // добавляем данные от пейджера в сообщения
+                    embeds: oldmessage?.embeds,  // оставляем старые вложения
+                    components: pager.build(),   // перерисовываем пейджер
+                }
+            }, 
+            1 // для примера рассмотрен вывод по одному элементу
+        ).pageLayout()
+
+		await interaction.reply(pageLayout); // возвращаем страничку пейджера
 	},
 };
 ```
