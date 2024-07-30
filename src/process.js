@@ -118,7 +118,7 @@ class Process {
     }
 
     Store() {
-        __ProcSTORAGE.Store(this, this.#hash, this.#interactionID, this.#messageID, this.#webhookID)
+        __ProcSTORAGE.Store(this, this.#hash, this.#interactionID[this.#interactionID.length-1], this.#messageID, this.#webhookID)
 
         return this
     }
