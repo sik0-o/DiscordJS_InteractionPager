@@ -3,6 +3,14 @@ const {
     ActionRowBuilder, 
     ButtonStyle 
 } = require('discord.js')
+const GO_NEXT_PAGE = 1
+const GO_PREV_PAGE = -1
+const GO_LAST_PAGE = 0
+
+const CID_LAST_PAGE     = 'pager_lastPage'
+const CID_NEXT_PAGE     = 'pager_nextPage'
+const CID_PREV_PAGE     = 'pager_prevPage'
+const CID_CURRENT_PAGE  = 'pager_currentPage'
 
 /**
  * Pager собственно класс объекта пейджера. 
@@ -103,26 +111,26 @@ class Pager {
     build() {
         // Кнопка предыдущей страницы
         const previousPage = new ButtonBuilder()
-            .setCustomId('pager_prevPage')
+            .setCustomId(CID_PREV_PAGE)
             .setLabel('Previous')
             .setStyle(ButtonStyle.Primary)
 
         // Кнопка следующей страницы
         const nextPage = new ButtonBuilder()
-            .setCustomId('pager_nextPage')
+            .setCustomId(CID_NEXT_PAGE)
             .setLabel('next')
             .setStyle(ButtonStyle.Primary)
 
         // Кнопка(Дисплей) текущей страницы
         const curPage = new ButtonBuilder()
-            .setCustomId('pager_currentPage')
+            .setCustomId(CID_CURRENT_PAGE)
             .setLabel(`${this.#currentPage}`)
             .setStyle(ButtonStyle.Secondary)
             .setDisabled(true) 
 
         // Кнопка последней страницы
         const lastPage = new ButtonBuilder()
-            .setCustomId('pager_lastPage')
+            .setCustomId(CID_LAST_PAGE)
             .setLabel(`${this.#lastPage}`)
             .setStyle(ButtonStyle.Primary)
         
@@ -170,4 +178,11 @@ class Pager {
 
 module.exports = {
     Pager: Pager,
+    GO_NEXT_PAGE: GO_NEXT_PAGE,
+    GO_PREV_PAGE: GO_PREV_PAGE,
+    GO_LAST_PAGE: GO_LAST_PAGE,
+    CID_LAST_PAGE: CID_LAST_PAGE,
+    CID_NEXT_PAGE: CID_NEXT_PAGE,
+    CID_PREV_PAGE: CID_PREV_PAGE,
+    CID_CURRENT_PAGE: CID_CURRENT_PAGE,
 }
