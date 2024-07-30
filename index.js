@@ -1,4 +1,5 @@
-const {Pager} = require('./src/pager.js')
+const {Pager} = require('./src/pager')
+const {Process} = require('./src/process')
 
 // Paging класс, чтобы удобно создавать нужные конфигурации Pager
 class Paging {
@@ -28,4 +29,5 @@ class Paging {
 
 module.exports = {
     Paging: Paging,
+    Process: Process,
 }
