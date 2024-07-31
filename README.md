@@ -14,7 +14,7 @@
 4) Постраничный запрос контета, повторный запрос контента. (Процесс может жить, а информация будет уже не актуальная, тут короч дозагрузка возможно будет)
 
 ## Как использовать
-Для примера применю на команде взятой с (https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files)[документации discord.js]
+Для примера применю на команде взятой с [документации discord.js](https://discordjs.guide/creating-your-bot/slash-commands.html#individual-command-files)
 ### ManualProcess init and binding(mpb)
 ```js
 const { SlashCommandBuilder } = require('discord.js');
@@ -62,7 +62,7 @@ module.exports = {
 ```
 Замечательно, это мы добавили команду, добавили туда пейджер и после выполнения команды нам будет отображена первая страница Пейджера, но его кнопки будут скорее всего недоступны.
 Чтобы включить обработку событий пейджера нужно добавить обработчик взаимодействий в бота.
-Как это сделать рассказно (https://discordjs.guide/message-components/interactions.html#the-client-interactioncreate-event)[в этой прекрасной статье в разделе event]
+Как это сделать рассказно [в этой прекрасной статье в разделе event](https://discordjs.guide/message-components/interactions.html#the-client-interactioncreate-event)
 
 Нам нужен последний пример:
 ```js
