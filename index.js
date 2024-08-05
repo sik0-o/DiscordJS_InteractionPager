@@ -17,13 +17,13 @@ class Paging {
     // и замыкание like в качестве шаблонизатора страниц.
     // По умолчанию список arr разбивается на страницы размером в 10 элементов, но это можно поменять передав другой pageSize
     static for(interaction, arr, like, pageSize = 10) {
-
+        // like должно быть замыканием, иначе не получится отрисовать страницу pager
         if(typeof like !== 'function') {
             throw new Error('`like` must be a `function(pager, message) replyObject`')
         }
 
         // разбиваем список на страницы
-        if(typeof arr === 'object' && arr?.constructor?.name === 'Array') {
+        if(typeof arr === 'object' && arr.constructor.name === Array.prototype.constructor.name) {
             // Пробуем получить процесс связанный с взаимодействием interaction
             const proc = interaction ? Process.InitByInteraction(interaction) : null
 
@@ -43,6 +43,7 @@ class Paging {
                 // Добавляем пэйджер в контекст процесса
                 proc.register('pager', p)
             }
+            // так же это можно сделать самостоятельно позже через proc.registrer('pager', PAGER)
 
             return p
         } 
