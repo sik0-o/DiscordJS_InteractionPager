@@ -33,27 +33,27 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction) {
-        // В начале выполнения команды создаем процесс, привязываем взаимодействие к нему 
-        // и сохраняем его в памяти
-        const proc = Process.InitByInteraction(interaction)
-        
-        // тут мы запрашиваем какой-то список элементов
-        const list = await fetchList()
-        // создаем пейджер и шаблон страницы
-        const p = Paging.that(
-            list, 
-            (pager, oldmessage) => {
-                return {
-                    content: `Ваш страница ${pager.CurrentPage()} из ${pager.LastPage()}\n` +
-                    `\`${pager.getContent()}\``, // добавляем данные от пейджера в сообщения
-                    embeds: oldmessage?.embeds,  // оставляем старые вложения
-                    components: pager.build(),   // перерисовываем пейджер
-                }
-            }, 
-            1 // для примера рассмотрен вывод по одному элементу
-        )
-        // Добавляем пэйджер в контекст процесса
-        proc.register('pager', p)
+            // В начале выполнения команды создаем процесс, привязываем взаимодействие к нему 
+            // и сохраняем его в памяти
+            const proc = Process.InitByInteraction(interaction)
+            
+            // тут мы запрашиваем какой-то список элементов
+            const list = await fetchList()
+            // создаем пейджер и шаблон страницы
+            const p = Paging.that(
+                list, 
+                (pager, oldmessage) => {
+                    return {
+                        content: `Ваш страница ${pager.CurrentPage()} из ${pager.LastPage()}\n` +
+                        `\`${pager.getContent()}\``, // добавляем данные от пейджера в сообщения
+                        embeds: oldmessage?.embeds,  // оставляем старые вложения
+                        components: pager.build(),   // перерисовываем пейджер
+                    }
+                }, 
+                1 // для примера рассмотрен вывод по одному элементу
+            )
+            // Добавляем пэйджер в контекст процесса
+            proc.register('pager', p)
         
 
 		await interaction.reply(p.pageLayout()); // возвращаем страничку пейджера
@@ -120,22 +120,22 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
 	async execute(interaction) {       
-        // тут мы запрашиваем какой-то список элементов
-        const list = await fetchList()
-        // создаем пейджер и шаблон страницы
-        const pageLayout = Paging.for(
-            interaction, // здесь добавился interaction
-            list, 
-            (pager, oldmessage) => {
-                return {
-                    content: `Ваш страница ${pager.CurrentPage()} из ${pager.LastPage()}\n` +
-                    `\`${pager.getContent()}\``, // добавляем данные от пейджера в сообщения
-                    embeds: oldmessage?.embeds,  // оставляем старые вложения
-                    components: pager.build(),   // перерисовываем пейджер
-                }
-            }, 
-            1 // для примера рассмотрен вывод по одному элементу
-        ).pageLayout()
+            // тут мы запрашиваем какой-то список элементов
+            const list = await fetchList()
+            // создаем пейджер и шаблон страницы
+            const pageLayout = Paging.for(
+                interaction, // здесь добавился interaction
+                list, 
+                (pager, oldmessage) => {
+                    return {
+                        content: `Ваш страница ${pager.CurrentPage()} из ${pager.LastPage()}\n` +
+                        `\`${pager.getContent()}\``, // добавляем данные от пейджера в сообщения
+                        embeds: oldmessage?.embeds,  // оставляем старые вложения
+                        components: pager.build(),   // перерисовываем пейджер
+                    }
+                }, 
+                1 // для примера рассмотрен вывод по одному элементу
+            ).pageLayout()
 
 		await interaction.reply(pageLayout); // возвращаем страничку пейджера
 	},
