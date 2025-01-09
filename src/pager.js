@@ -62,13 +62,13 @@ class Pager {
 
     // Возвращает текущую страницу
     CurrentPage() {
-        this.#debugMsg('current page requested', data)
+        this.#debugMsg('current page requested')
         return this.#currentPage
     }
 
     // Возвращает последнюю страницу
     LastPage() {
-        this.#debugMsg('last page requested', data)
+        this.#debugMsg('last page requested')
         return this.#lastPage
     }   
 
