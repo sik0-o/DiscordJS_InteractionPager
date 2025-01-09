@@ -83,8 +83,12 @@ async function pagerCallback(i, dir = null) {
         pager.lastPage()
     }
     
-    await i.message.edit(pager.pageLayout(i?.message))
-    await i.deferUpdate()
+    try{
+        await i.message.edit(pager.pageLayout(i?.message))
+        await i.deferUpdate()
+    } catch(error) {
+        console.error('pagerCallback Error:', error)
+    }
 }
 
 
