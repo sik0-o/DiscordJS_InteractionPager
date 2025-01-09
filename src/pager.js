@@ -22,6 +22,8 @@ class Pager {
     #pageLayoutBuilder
 
     #showPreviousButton = true
+
+    #debug = false
     
     // Инициализируется начальной страницей и последней страницей
     constructor(currentPage, lastPage) {
@@ -32,14 +34,25 @@ class Pager {
     // Сеттеры
     // -------
 
+    #debugMsg(message, ...args) {
+        if(this.#debug) {
+            console.log(`[DEBUG] Pager`, message, ...args)
+        }
+    }
+
     // Устанавливает функцию сборки страницы
     SetPageLayoutBuilder(builderFN) {
         this.#pageLayoutBuilder = builderFN
+
+        this.#debugMsg('PageLayoutBuilder was set', builderFN)
+        
     }
 
     // Привязывает данные к пейджеру
     linkData(data) {
         this.#data = data
+
+        this.#debugMsg('data was linked', data)
         // last page recalculate?
 
     }
@@ -49,25 +62,34 @@ class Pager {
 
     // Возвращает текущую страницу
     CurrentPage() {
+        this.#debugMsg('current page requested', data)
         return this.#currentPage
     }
 
     // Возвращает последнюю страницу
     LastPage() {
+        this.#debugMsg('last page requested', data)
         return this.#lastPage
     }   
 
     // Возвращает страницу на основе предыдущего сообщения message
     pageLayout(message) {
+        this.#debugMsg('page layout will build with', message)
         return this.#pageLayoutBuilder(this, message)
     }
 
     // Возвращает связанные с пейджером данные
     getContent() {
+        this.#debugMsg('content requested', typeof this.#data, this.#data[this.#currentPage-1])
+
         // console.log('PAGER::getContent', this.#data)
         if(this.#data === null) return null
 
         return this.#data[this.#currentPage-1]
+    }
+
+    debug() {
+        this.#debug = true
     }
 
 
@@ -80,6 +102,8 @@ class Pager {
         let next = this.#currentPage + 1
         if(next >= this.#lastPage) next = this.#lastPage
 
+        this.#debugMsg('will go next page:', next, 'current page:', this.#currentPage)
+
         this.#currentPage = next
 
         return next
@@ -91,6 +115,8 @@ class Pager {
         let prev = this.#currentPage - 1
         if(prev <= 1) prev = 1
 
+        this.#debugMsg('will go prev page:', prev, 'current page:', this.#currentPage)
+
         this.#currentPage = prev
 
         return prev
@@ -98,6 +124,7 @@ class Pager {
 
     // Перемещает пейджер на последнюю страницу.
     lastPage() {
+        this.#debugMsg('will go last page:', this.#lastPage, 'current page:', this.#currentPage)
         this.#currentPage = this.#lastPage
 
         return this.#lastPage
@@ -109,6 +136,7 @@ class Pager {
 
     // Собирает ActionRow и компоненты пейджера
     build() {
+        this.#debugMsg('build called')
         // Кнопка предыдущей страницы
         const previousPage = new ButtonBuilder()
             .setCustomId(CID_PREV_PAGE)
@@ -134,11 +162,11 @@ class Pager {
             .setLabel(`${this.#lastPage}`)
             .setStyle(ButtonStyle.Primary)
         
-        // Доп.Кнопка
-        const betTokenButton = new ButtonBuilder()
-            .setCustomId('pager_betToken')
-            .setLabel('BET Now')
-            .setStyle(ButtonStyle.Success)
+        // // Доп.Кнопка
+        // const betTokenButton = new ButtonBuilder()
+        //     .setCustomId('pager_betToken')
+        //     .setLabel('BET Now')
+        //     .setStyle(ButtonStyle.Success)
 
         // Собираем компоненты
         const components = []
@@ -165,8 +193,8 @@ class Pager {
             components.push(lastPage)
         }
 
-        // Дополнительные кнопочки вставляем да
-        components.push(betTokenButton)
+        // // Дополнительные кнопочки вставляем да
+        // components.push(betTokenButton)
 
         // Собираем строки панели управления
         const row = new ActionRowBuilder()

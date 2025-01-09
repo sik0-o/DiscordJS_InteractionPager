@@ -129,7 +129,9 @@ class Process {
 
     bindInteraction(i) {
         if(i?.id ?? null) this.#interactionID.push(i.id)
-
+        // TODO: в процессе не сохраняются сообщения, которые были созданы у этого процесса,
+        // вместо этого сохраняется последнее сообщение. 
+        // Получить нужный пейджер, если он был создан в одном процессе, не получится (будет выдан пейджер из последнего сообщения)
         this.#messageID = i?.message?.id ?? null
         this.#webhookID = i?.webhook?.id ?? null
     }
