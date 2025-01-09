@@ -90,6 +90,8 @@ class Pager {
 
     debug() {
         this.#debug = true
+
+        return this
     }
 
 
