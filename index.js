@@ -87,10 +87,10 @@ async function pagerCallback(i, dir = null) {
     }
     
     try{
-        if(i.message.ephemeral || ((i.message.flags & mask) != 0)) {
+        if(i.message.ephemeral || ((i.message.flags & 64) != 0)) {
             console.log('Ephemeral message found')
             console.log(i.message)
-            
+
         } else {
             await i.message.edit(pager.pageLayout(i?.message))
         }
