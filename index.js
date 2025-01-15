@@ -90,19 +90,18 @@ async function pagerCallback(i, dir = null) {
         if(i.message.ephemeral || ((i.message.flags & 64) != 0)) {
             console.log('Ephemeral message found')
             console.log(i.message)
+            // В случае Ephemeral сообщений мы не можем изменить сообщение, 
+            // но можем изменить само взаимодействие установив туда новый контент
+            // тогда deferUpdate нам не требуется. (это справедливо в случае если сообщение было установлено с помощью interaction.reply(), 
+            // но неизвестно так ли это для followUp)
             await i.update(pager.pageLayout(i?.message))
         } else {
             await i.message.edit(pager.pageLayout(i?.message))
+            await i.deferUpdate()
         }
     } catch(error) {
         console.error('[DEBUG] {pagerCallback MessageEdit} Error:', error)
         throw error
-    }
-
-    try {
-        await i.deferUpdate()
-    } catch(error) {
-        console.error('[DEBUG] {pagerCallback DeferUpdate} Error:', error)
     }
 }
 
