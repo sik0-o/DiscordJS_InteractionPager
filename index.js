@@ -57,8 +57,8 @@ class Paging {
     }
 }
 
-// pagerCallback применяется на кнопки и получает взаимодействие кнопки i
-async function pagerCallback(i, dir = null) {
+// interactionCallback используется для управления пейджером и получения его следующего состояния
+function interactionCallback(i, dir = null) {
     // Извлекаем пэйджер из контекста процесса привязанного к взаимодействию (interaction)
     console.log('[DEBUG] Access process by interaction')
     const proc = Process.GetByInteraction(i)
@@ -85,7 +85,14 @@ async function pagerCallback(i, dir = null) {
     } else {
         pager.lastPage()
     }
-    
+
+    return pager.pageLayout(i?.message)
+}
+
+// pagerCallback применяется на кнопки, обрабатывает взаимодействие пользователя
+// выбирая правильный метод в зависимости от родительского сообщения.
+async function pagerCallback(i, dir = null) {
+    const layout = interactionCallback(i, dir)
     try{
         if(i.message.ephemeral || ((i.message.flags & 64) != 0)) {
             console.log('Ephemeral message found')
@@ -94,9 +101,9 @@ async function pagerCallback(i, dir = null) {
             // но можем изменить само взаимодействие установив туда новый контент
             // тогда deferUpdate нам не требуется. (это справедливо в случае если сообщение было установлено с помощью interaction.reply(), 
             // но неизвестно так ли это для followUp)
-            await i.update(pager.pageLayout(i?.message))
+            await i.update(layout)
         } else {
-            await i.message.edit(pager.pageLayout(i?.message))
+            await i.message.edit(layout)
             await i.deferUpdate()
         }
     } catch(error) {
@@ -110,6 +117,7 @@ module.exports = {
     Paging: Paging,
     Process: Process,
     pagerCallback: pagerCallback,
+    interactionCallback: interactionCallback,
     // Pager Constants
     GO_NEXT_PAGE: GO_NEXT_PAGE,
     GO_PREV_PAGE: GO_PREV_PAGE,
