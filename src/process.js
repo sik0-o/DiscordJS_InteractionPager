@@ -18,20 +18,20 @@ class ProcStorage {
 
         // by messageID
         if(messageID) {
-            // console.log('ByMessageID', messageID)
+            console.log('ByMessageID', messageID)
             const p = this.findProc(BY_MESSAGE, messageID)
             if(p) return p
         }
         // by message InteractionID
         if(messageInteractionID) {
-            // console.log('ByMessageInteractionID', messageInteractionID)
+            console.log('ByMessageInteractionID', messageInteractionID)
             const p = this.findProc(BY_INTERACTION, messageInteractionID)
             if(p) return p
         }
 
         // by interactionID
         if(interactionID) {
-            // console.log('ByInteractionID', interactionID)
+            console.log('ByInteractionID', interactionID)
             const p = this.findProc(BY_INTERACTION, interactionID)
             if(p) return p
         }

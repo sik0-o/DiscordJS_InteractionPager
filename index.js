@@ -88,10 +88,16 @@ async function pagerCallback(i, dir = null) {
     
     try{
         await i.message.edit(pager.pageLayout(i?.message))
+        
+    } catch(error) {
+        console.error('[DEBUG] {pagerCallback MessageEdit} Error:', error)
+        throw error
+    }
+
+    try {
         await i.deferUpdate()
     } catch(error) {
-        console.error('[DEBUG] {pagerCallback Error}:', error)
-        throw error
+        console.error('[DEBUG] {pagerCallback DeferUpdate} Error:', error)
     }
 }
 
