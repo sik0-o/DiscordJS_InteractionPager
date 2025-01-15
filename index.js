@@ -87,8 +87,13 @@ async function pagerCallback(i, dir = null) {
     }
     
     try{
-        await i.message.edit(pager.pageLayout(i?.message))
-        
+        if(i.message.ephemeral || ((i.message.flags & mask) != 0)) {
+            console.log('Ephemeral message found')
+            console.log(i.message)
+            
+        } else {
+            await i.message.edit(pager.pageLayout(i?.message))
+        }
     } catch(error) {
         console.error('[DEBUG] {pagerCallback MessageEdit} Error:', error)
         throw error
