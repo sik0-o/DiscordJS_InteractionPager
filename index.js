@@ -60,8 +60,11 @@ class Paging {
 // pagerCallback применяется на кнопки и получает взаимодействие кнопки i
 async function pagerCallback(i, dir = null) {
     // Извлекаем пэйджер из контекста процесса привязанного к взаимодействию (interaction)
+    console.log('[DEBUG] Access process by interaction')
     const proc = Process.GetByInteraction(i)
+    console.log('[DEBUG] Process:', proc, 'access pager')
     const pager = proc.access('pager')
+    console.log('[DEBUG] Pager:', pager)
     const interactionCustomID = i?.customId ?? null
     if(dir === null) {
         switch(interactionCustomID) {
@@ -87,7 +90,8 @@ async function pagerCallback(i, dir = null) {
         await i.message.edit(pager.pageLayout(i?.message))
         await i.deferUpdate()
     } catch(error) {
-        console.error('pagerCallback Error:', error)
+        console.error('[DEBUG] {pagerCallback Error}:', error)
+        throw error
     }
 }
 
